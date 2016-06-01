@@ -13,24 +13,19 @@
     http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd" 
     default-autowire="byName">
     
-    <bean class="org.bigmouth.nvwa.zookeeper.config.ZkPropertyPlaceholderConfigurer">
-		<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
-		<property name="ignoreResourceNotFound" value="true" />
-		<property name="locations">
-			<list>
-				<value>classpath:application.properties</value>
-			</list>
-		</property>
-	</bean>
-	
 	<context:component-scan base-package="org.bigmouth.senon.admin" />
 	<mvc:annotation-driven />
 	
-	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" />
-
-	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<property name="prefix" value="/WEB-INF/views/" />
-		<property name="suffix" value=".jsp" />
-		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
-	</bean>
+	<bean id="velocityConfig" class="org.springframework.web.servlet.view.velocity.VelocityConfigurer">
+        <property name="configLocation" value="/WEB-INF/views/velocity.properties"/>
+    </bean>
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.velocity.VelocityLayoutViewResolver">
+        <property name="cache" value="false"/>
+        <property name="prefix" value="/templates/"/>
+        <property name="layoutUrl" value="/layout/main.vm"/>
+        <property name="suffix" value=".vm"/>
+        <property name="exposeSpringMacroHelpers" value="true" />
+        <property name="contentType" value="text/html;charset=UTF-8" />
+        <property name="viewClass" value="org.springframework.web.servlet.view.velocity.VelocityLayoutView" />
+    </bean>
 </beans>

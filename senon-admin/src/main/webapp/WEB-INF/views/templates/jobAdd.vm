@@ -1,0 +1,327 @@
+<link rel="stylesheet" type="text/css" href="statics/css/bootstrap-datetimepicker.min.css">
+<style type="text/css">
+.CodeMirror { font-size:13px; border:1px solid #CCC;}
+</style>
+<ol class="breadcrumb">
+  <li><a href="#">Home</a></li>
+  <li class="active">Add Job</li>
+</ol>
+
+<div class="form form-horizontal">
+	<div class="form-group">
+        <div class="col-sm-12">
+            <textarea class="form-control" name="jobCode" id="jobCode" rows="10"></textarea>
+		</div>
+	</div>
+	<div class="form-group">
+        <label class="col-sm-2 control-label">任务ID</label>
+
+        <div class="col-sm-4">
+            <input type="text" class="form-control" name="taskId" id="taskId" readonly>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">任务名称</label>
+
+        <div class="col-sm-4">
+            <input type="text" class="form-control" name="jobName"
+                   placeholder="任务名称">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">触发类型</label>
+
+        <div class="col-sm-2">
+            <select name="jobType" class="form-control">
+                <option value="REAL_TIME_JOB">实时触发</option>
+                <option value="TRIGGER_TIME_JOB">定时触发</option>
+                <option value="CRON_JOB">Cron表达式</option>
+                <option value="REPEAT_JOB">重复循环</option>
+            </select>
+        </div>
+        <div class="col-sm-3 lts-cron-job-group" style="display:none;">
+            <input type="text" class="form-control" name="cronExpression"
+                   placeholder="请输入Cron表达式">
+        </div>
+        <div class="col-sm-2 lts-repeat-job-group lts-trigger-job-group" style="display: none;">
+            <input class="form-control" type="text"
+                   id="triggerTime"
+                   name="triggerTime"
+                   data-date-format="yyyy-mm-dd hh:ii:00"
+                   placeholder="点击选择触发时间"
+                   readonly>
+        </div>
+        <div class="col-sm-2 lts-repeat-job-group" style="display:none;">
+            <input type="text" class="form-control" name="repeatInterval"
+                   placeholder="请输入触发时间间隔"/>
+        </div>
+        <div class="col-sm-2 lts-repeat-job-group" style="display:none;">
+            <input type="number" class="form-control" name="repeatCount"
+                   placeholder="请输入重复次数"/>
+        </div>
+    </div>
+    <div class="form-group lts-repeat-job-group lts-cron-job-group" style="display: none;">
+        <label class="col-sm-2 control-label">是否依赖上个周期</label>
+
+        <div class="col-sm-3">
+            <select name="relyOnPrevCycle" class="form-control">
+                <option value="true" selected>YES</option>
+                <option value="false">NO</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">是否需要反馈</label>
+
+        <div class="col-sm-3">
+            <select name="needFeedback" class="form-control">
+                <option value="true">YES</option>
+                <option value="false" selected>NO</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">优先级</label>
+
+        <div class="col-sm-3">
+            <input type="number" class="form-control" name="priority" value="100"
+                   placeholder="必须为数字，数值越小，优先级越大【必填】">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">最大重试次数</label>
+
+        <div class="col-sm-3">
+            <input type="number" class="form-control" name="maxRetryTimes" value="0"
+                   placeholder="最大重试次数, 必须为非负数【必填】">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">提交节点组</label>
+
+        <div class="col-sm-3">
+            <select name="submitNodeGroup" class="form-control">
+                <option value="">-- 请选择提交节点组 --</option>
+                #foreach($nodeGroup in $jobClientNodeGroups)
+                    <option value="$nodeGroup.name">$nodeGroup.name</option>
+                #end
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">执行节点组</label>
+
+        <div class="col-sm-3">
+            <select name="taskTrackerNodeGroup" class="form-control">
+                <option value="">-- 请选择执行节点组 --</option>
+                #foreach($nodeGroup in $taskTrackerNodeGroups)
+                    <option value="$nodeGroup.name">$nodeGroup.name</option>
+                #end
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">脚本类型</label>
+
+        <div class="col-sm-3">
+            <select name="jobCodeType" class="form-control">
+                <option value="SHELL">命令行</option>
+                <option value="PYTHON" selected>Python</option>
+                <option value="HIVE">Hive</option>
+            </select>
+        </div>
+    </div>
+    
+    <div class="form-group">
+        <div class="col-sm-1 col-sm-offset-2" style="width:70px;">
+            <button class="btn btn-primary" type="button" id="addBtn">
+                添加
+            </button>
+        </div>
+        <div class="col-sm-1">
+            <button class="btn btn-default" type="reset" id="resetBtn">
+                重置
+            </button>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="statics/js/codemirror/lib/codemirror.js"></script>
+<script type="text/javascript" src="statics/js/codemirror/addon/edit/matchbrackets.js"></script>
+<script type="text/javascript" src="statics/js/codemirror/mode/python/python.js"></script>
+<script type="text/javascript" src="statics/js/datepicker/bootstrap-datetimepicker.min.js"></script>
+<script type="text/javascript" src="statics/js/datepicker/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+<script type="text/javascript">
+$(function() {
+	var myTextarea = document.getElementById('jobCode');
+	var CodeMirrorEditor = CodeMirror.fromTextArea(myTextarea, {
+        lineNumbers: true,
+    	styleActiveLine: true,
+        mode: 'text/x-python',
+        indentWithTabs: true,
+        smartIndent: true,
+        matchBrackets: true,
+        autofocus: false,
+        readOnly: false,
+        theme: 'eclipse'
+    });
+
+    $(document).on("change", "select[name='jobType']", function () {
+        var jobType = $(this).val();
+        if (jobType == 'REAL_TIME_JOB') {
+            $(".lts-cron-job-group").hide();
+            $(".lts-trigger-job-group").hide();
+            $(".lts-repeat-job-group").hide();
+        } else if (jobType == 'TRIGGER_TIME_JOB') {
+            $(".lts-cron-job-group").hide();
+            $(".lts-repeat-job-group").hide();
+            $(".lts-trigger-job-group").show();
+        } else if (jobType == 'CRON_JOB') {
+            $(".lts-trigger-job-group").hide();
+            $(".lts-repeat-job-group").hide();
+            $(".lts-cron-job-group").show();
+        } else if (jobType == 'REPEAT_JOB') {
+            $(".lts-cron-job-group").hide();
+            $(".lts-trigger-job-group").hide();
+            $(".lts-repeat-job-group").show();
+        }
+    });
+
+    $('#triggerTime').datetimepicker({
+        autoclose : true,
+        language : 'zh-CN'
+    });
+    $('#taskId').val(DateUtil.format(new Date(), 'yyyyMMddHHmmss'));
+
+    $(document).on("click", "#addBtn", function () {
+        var params = {};
+        $.each($('.form').find(".form-control"), function () {
+            var name = $(this).attr("name");
+            var value = null;
+            if (name == 'jobCode') {
+                value = CodeMirrorEditor.getValue();
+            }
+            else {
+                value = $(this).val().trim();
+            }
+            params[name] = value;
+        });
+
+        var jobType = params['jobType'];
+        if (jobType == 'REAL_TIME_JOB') {
+            params['cronExpression'] = '';
+            params['triggerTime'] = '';
+        } else if (jobType == 'TRIGGER_TIME_JOB') {
+            params['cronExpression'] = '';
+            var triggerTime = params['triggerTime'];
+            if (!triggerTime) {
+                Toast.danger("请输入任务触发时间");
+                return;
+            }
+        } else if (jobType == 'CRON_JOB') {
+            var cronExpression = params['cronExpression'];
+            params['triggerTime'] = '';
+            if (!cronExpression) {
+                Toast.danger("请输入Cron表达式");
+                return;
+            }
+        } else if (jobType == 'REPEAT_JOB') {
+            var triggerTime = params['triggerTime'];
+            if (!triggerTime) {
+                Toast.danger("请输入任务触发时间");
+                return;
+            }
+            var repeatInterval = params['repeatInterval'];
+            if (!repeatInterval) {
+                Toast.danger("请输入重复时间间隔，必须为数字，毫秒数");
+                return;
+            }
+            if (!LTS.ReExp.number.test(repeatInterval)) {
+                Toast.danger("重复时间间隔，必须为数字，毫秒数");
+                return;
+            }
+            var repeatCount = params['repeatCount'];
+            if (!repeatCount) {
+                Toast.danger("请输入重复次数，-1表示无限重复, 必须大于等于-1");
+                return;
+            }
+            if (repeatCount != -1 && !/^\d+$/.test(repeatCount)) {
+                Toast.danger("重复次数格式错误，-1表示无限重复, 必须大于等于 -1");
+                return;
+            }
+        }
+
+        // check form
+        if (!params['taskId']) {
+            Toast.danger("请输入任务ID");
+            return;
+        }
+        if (!params['jobName']) {
+            Toast.danger('请输入任务名称');
+            return;
+        }
+        var priority = params['priority'];
+        if (!priority) {
+            Toast.danger("请输入优先级，必须为数字，数值越小，优先级越大【必填】");
+            return;
+        }
+        if (!LTS.ReExp.number.test(priority)) {
+            Toast.danger("优先级格式错误，必须为数字，数值越小，优先级越大【必填】");
+            return;
+        }
+        if (!params['submitNodeGroup'] && params['needFeedback'] == 'true') {
+            Toast.danger("请选择提交节点组，需要反馈客户端必须选择提交节点组,如果列表中没有，请在节点组管理中添加，并启动该节点。");
+            return;
+        }
+        if (!params['taskTrackerNodeGroup']) {
+            Toast.danger("请选择执行节点组，如果列表中没有，请在节点组管理中添加，并启动该节点。");
+            return;
+        }
+        if (!params['maxRetryTimes'] || !/^\d+$/.test(params['maxRetryTimes'])) {
+            Toast.danger("最大重试次数必须为非负整数");
+            return;
+        }
+        if (!params['jobCode']) {
+            Toast.danger('请编写有效的任务脚本');
+            return;
+        }
+
+        params['extParams'] = 
+        JSON.stringify({
+            JobCodeType : params['jobCodeType'],
+            JobCode : params['jobCode'],
+            JobName : params['jobName']
+        });
+        
+        var extParams = params['extParams'];
+        if (extParams) {
+            try {
+                JSON.parse(extParams)
+            } catch (e) {
+                Toast.danger("用户参数格式错误，必须为JSON格式");
+                return;
+            }
+        }
+        
+        $.ajax({
+            url: ctx + '/job-queue/job-add',
+            type: 'POST',
+            dataType: 'json',
+            data: params,
+            success: function (json) {
+                if (json && json.success) {
+                    Toast.success('添加成功');
+                    $("#resetBtn").trigger("click");
+                    $(".lts-cron-job-group").hide();
+                    $(".lts-trigger-job-group").hide();
+                    $(".lts-repeat-job-group").hide();
+                } else {
+                    if (json) {
+                        Toast.danger(json['msg']);
+                    }
+                }
+            }
+
+        });
+    });
+});
+</script>

@@ -1,0 +1,28 @@
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+#set($ctx= $request.getContextPath())
+<title>神农</title>
+
+<link rel="stylesheet" href="${ctx}/statics/css/bootstrap.min.css">
+<link rel="stylesheet" href="${ctx}/statics/css/console.min.css">
+<link rel="stylesheet" href="${ctx}/statics/css/font-awesome.min.css">
+<link rel="stylesheet" href="${ctx}/statics/css/animate.css">
+<link rel="stylesheet" href="${ctx}/statics/js/nprogress/nprogress.css">
+<link rel="stylesheet" href="${ctx}/statics/js/codemirror/lib/codemirror.css">
+<link rel="stylesheet" href="${ctx}/statics/js/codemirror/theme/eclipse.css">
+<link rel="stylesheet" href="${ctx}/statics/css/senon.css">
+
+<script src="${ctx}/statics/js/jquery-1.11.0.min.js"></script>
+<script src="${ctx}/statics/js/bootstrap.min.js"></script>
+<script src="${ctx}/statics/js/bootstrapgrowl/jquery.bootstrap-growl.min.js"></script>
+<script src="${ctx}/statics/js/nprogress/nprogress.js"></script>
+<script src="${ctx}/statics/js/date-util.js"></script>
+<script src="${ctx}/statics/js/artTemplate/template-debug.js"></script>
+<script src="${ctx}/statics/js/pagination/jquery.twbsPagination.min.js"></script>
+<script src="${ctx}/statics/js/nvwa.modal.js"></script>
+<script src="${ctx}/statics/js/senon.common.js"></script>
+<script type="text/javascript">
+ctx = "${ctx}";
+</script>

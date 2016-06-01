@@ -1,0 +1,30 @@
+.footer {
+	margin: 25px 0px;
+	margin-top: 50px;
+}
+
+::-webkit-scrollbar {
+	width: 8px
+}
+
+::-webkit-scrollbar-button {
+	width: 8px;
+	height: 5px
+}
+
+::-webkit-scrollbar-track {
+	background: #eee;
+	border: thin solid lightgray;
+	box-shadow: 0 0 3px #dfdfdf inset;
+	border-radius: 10px
+}
+
+::-webkit-scrollbar-thumb {
+	background: #999;
+	border: thin solid gray;
+	border-radius: 10px
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background: #7d7d7d
+}

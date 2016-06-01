@@ -1,16 +1,61 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<parent>
 		<artifactId>senon-parent</artifactId>
 		<groupId>org.bigmouth</groupId>
 		<version>1.0.0</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
-  <artifactId>senon-tasktracker</artifactId>
-  <dependencies>
-  	<dependency>
-  		<groupId>org.bigmouth</groupId>
-  		<artifactId>senon-common</artifactId>
-  		<version>${project.parent.version}</version>
-  	</dependency>
-  </dependencies>
+	<artifactId>senon-tasktracker</artifactId>
+	<dependencies>
+		<dependency>
+			<groupId>org.bigmouth</groupId>
+			<artifactId>senon-common</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifest>
+							<addClasspath>true</addClasspath>
+							<classpathPrefix>./</classpathPrefix>
+							<mainClass>org.bigmouth.senon.tasktracker.TaskTrackerStartup</mainClass>
+						</manifest>
+						<manifestEntries>
+							<Class-Path>../etc/</Class-Path>
+						</manifestEntries>
+					</archive>
+					<excludes>
+						<exclude>application.properties</exclude>
+						<exclude>log4j.properties</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<configuration>
+					<!-- not append assembly id in release file name -->
+					<appendAssemblyId>false</appendAssemblyId>
+					<descriptors>
+						<descriptor>src/main/assemble/package.xml</descriptor>
+					</descriptors>
+				</configuration>
+				<executions>
+					<execution>
+						<id>make-assembly</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
 </project>

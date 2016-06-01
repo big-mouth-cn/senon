@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    #parse('/layout/head.vm')
+</head>
+
+<body>
+    #parse('/layout/menu.vm')
+
+    <div class="container">
+
+        $screen_content
+
+        #parse('/layout/footer.vm')
+    </div>
+</body>
+</html>

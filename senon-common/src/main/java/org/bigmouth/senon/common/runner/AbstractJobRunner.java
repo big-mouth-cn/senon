@@ -75,14 +75,14 @@ public abstract class AbstractJobRunner implements JobRunner {
         Job job = jobContext.getJob();
         String script = job.getParam(SCRIPT_CONTENT_KEY);
         if (StringUtils.isEmpty(script)) {
-            return new Result(Action.EXECUTE_SUCCESS, "任务执行完成!但是没有任何可执行脚本,请提交任务时将脚本内容设置到扩展参数“" + SCRIPT_CONTENT_KEY
+            return new Result(Action.EXECUTE_EXCEPTION, "任务执行失败!因为该任务没有任何可执行脚本,请在提交任务时将脚本内容设置到扩展参数“" + SCRIPT_CONTENT_KEY
                     + "”中");
         }
         String pathname = PathUtils.appendEndFileSeparator(getJobFullPath()) + job.getTaskId() + getJobSuffix();
         File file = new File(pathname);
         file = FileUtils.createFileIfNotExist(file);
         if (! writeFile(file, script)) {
-            return new Result(Action.EXECUTE_EXCEPTION, "任务执行失败!无法将执行脚本内容写入到文件中：" + file);
+            return new Result(Action.EXECUTE_EXCEPTION, "任务执行失败!无法将执行脚本写入到文件中：" + file);
         }
         
         BizLogger bizLogger = jobContext.getBizLogger();
