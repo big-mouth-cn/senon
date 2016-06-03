@@ -1,7 +1,7 @@
 <ol class="breadcrumb">
   <li><a href="#">神农</a></li>
   <li class="active">任务</li>
-  <li class="active">Cron任务</li>
+  <li class="active">循环任务</li>
 </ol>
 <div class="form form-inline">
 	<input class="form-control" name="taskId" placeholder="#ID">
@@ -20,7 +20,8 @@
             <th>脚本类型</th>
             <th data-hide="all">提交组</th>
             <th>执行节点</th>
-            <th>表达式</th>
+            <th>间隔时间</th>
+            <th>重复次数</th>
             <th>自依赖</th>
             <th data-hide="all">优先级</th>
             <th data-hide="all">最大重试次数</th>
@@ -36,7 +37,8 @@
             <td>{{row.extParams.JobCodeType}}</td>
             <td>{{row.submitNodeGroup}}</td>
             <td>{{row.taskTrackerNodeGroup}}</td>
-            <td>{{row.cronExpression}}</td>
+            <td>{{row.repeatInterval | format: 'repeatIntervalFormat', row}}</td>
+            <td>{{row.repeatCount | format:'repeatCountFormat', row}}</td>
             <td>{{row.relyOnPrevCycle | format:'formatRelyOnPrevCycle',row}}</td>
             <td>{{row.priority}}</td>
             <td>{{row.maxRetryTimes}}</td>
@@ -46,7 +48,7 @@
         {{/each}}
         {{if results == 0}}
         <tr>
-            <td colspan="11">
+            <td colspan="12">
             	<div class="alert alert-warning">没有找到符合条件的内容</div>
             </td>
         </tr>
@@ -54,11 +56,11 @@
         </tbody>
         <tfoot>
         <tr>
-            <td colspan="11">
+            <td colspan="12">
                 <ul class="pagination pagination-sm pull-right"></ul>
             </td>
         </tr>
         </tfoot>
     </table>
 </script>
-<script type="text/javascript" src="statics/js/job/cron-job-queue.js?v=1.0"></script>
+<script type="text/javascript" src="statics/js/job/repeat-job-queue.js?v=1.0"></script>

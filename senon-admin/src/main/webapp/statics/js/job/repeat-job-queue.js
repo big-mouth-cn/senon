@@ -66,7 +66,7 @@
         });
 
 		var ltsTable = $("#jobtable-container").ltsTable({
-            url: ctx + '/job-queue/cron-job-get',
+            url: ctx + '/job-queue/repeat-job-get',
             templateId: 'ltstable'
         });
 

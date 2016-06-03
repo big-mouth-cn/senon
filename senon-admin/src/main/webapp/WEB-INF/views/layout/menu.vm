@@ -23,12 +23,12 @@
 		      任务 <span class="caret"></span>
 		    </a>
     		<ul class="dropdown-menu">
-    			<li><a href="${ctx}/cron-job-queue">Cron 任务</a></li>
-	        	<li><a href="${ctx}/job">循环任务</a></li>
+    			<li><a href="${ctx}/cron-job-queue">Cron任务</a></li>
+	        	<li><a href="${ctx}/repeat-job-queue">循环任务</a></li>
 	        	<li role="separator" class="divider"></li>
-	        	<li><a href="${ctx}/job">执行中</a></li>
-	        	<li><a href="${ctx}/job">已暂停</a></li>
-	        	<li><a href="${ctx}/job">等待执行</a></li>
+	        	<li><a href="${ctx}/executing-job-queue">执行中</a></li>
+	        	<li><a href="${ctx}/suspend-job-queue">已暂停</a></li>
+	        	<li><a href="${ctx}/executable-job-queue">等待执行</a></li>
     		</ul>
         </li>
         <li class="dropdown">

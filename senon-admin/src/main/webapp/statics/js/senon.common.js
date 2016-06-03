@@ -110,13 +110,13 @@ LTS.colFormatter.needFeedbackLabel = function (v) {
 
 LTS.colFormatter.jobTypeFormat = function (v) {
     if (v == 'CRON') {
-        return "Cron Task";
+        return "Cron任务";
     } else if (v == "REPEAT") {
-        return "Repeat Task";
+        return "循环任务";
     } else if (v == 'REAL_TIME') {
-        return "RealTime Task";
+        return "实时任务";
     } else if (v == 'TRIGGER_TIME') {
-        return "Timer";
+        return "定时任务";
     }
     return v;
 };
